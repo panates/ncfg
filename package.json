@@ -1,0 +1,57 @@
+{
+  "name": "ncfg",
+  "description": "Configuration management library for Node.js",
+  "version": "0.0.1",
+  "author": "Panates Ltd.",
+  "contributors": [
+    "Eray Hanoglu <e.hanoglu@panates.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panates/ncfg.git"
+  },
+  "main": "lib/index.js",
+  "keywords": [
+    "javascript",
+    "configuration",
+    "config",
+    "cfg",
+    "configuration-management",
+    "environment-variables",
+    "env",
+    "schema",
+    "validation"
+  ],
+  "dependencies": {
+    "errorex": "^2.0.3",
+    "putil-merge": "^2.0.2",
+    "validator": "^10.9.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-google": "^0.11.0",
+    "nyc": "^13.1.0",
+    "mocha": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib/"
+  ],
+  "nyc": {
+    "temp-dir": "./coverage/.nyc_output"
+  },
+  "scripts": {
+    "test": "mocha --require ./test/support/env --reporter spec --bail --check-leaks test/",
+    "cover": "nyc --reporter html --reporter text npm run test",
+    "travis-cover": "nyc --reporter lcovonly npm run test"
+  }
+}
