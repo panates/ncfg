@@ -1341,7 +1341,8 @@ describe('Formats', function() {
         x4: 'hex',
         e1: 'hex',
         e2: 'hex',
-        e3: 'hex'
+        e3: 'hex',
+        e4: 'hex'
       });
       config.load({
         x1: null,
@@ -1350,7 +1351,7 @@ describe('Formats', function() {
         e1: NaN,
         e2: {},
         e3: 123,
-        e4: 'hello world',
+        e4: 'hello world'
       });
     });
 
@@ -1379,6 +1380,10 @@ describe('Formats', function() {
       assert(stack.e3, 'Validation failed');
     });
 
+    it('should not validate text', function() {
+      assert(stack.e4, 'Validation failed');
+    });
+
     it('should parse Null', function() {
       assert.strictEqual(config.get('x1'), null);
     });
@@ -1401,6 +1406,168 @@ describe('Formats', function() {
 
     it('should not parse Number', function() {
       assert.throws(() => config.get('e3'), /Validation error./g);
+    });
+
+    it('should not parse text', function() {
+      assert.throws(() => config.get('e4'), /Validation error./g);
+    });
+
+  });
+
+  describe('duration', function() {
+
+    beforeEach(function() {
+      config.defineAll({
+        x1: 'duration',
+        x2: 'duration',
+        x3: 'duration',
+        x4: 'duration',
+        x5: 'duration',
+        x6: 'duration',
+        x7: 'duration',
+        x8: 'duration',
+        x9: 'duration',
+        x10: 'duration',
+        x11: 'duration',
+        x12: 'duration',
+        e1: 'duration',
+        e2: 'duration',
+        e3: 'duration'
+      });
+      config.load({
+        x1: null,
+        x2: undefined,
+        x3: '1 ms',
+        x4: '1 millisecond',
+        x5: '1 s',
+        x6: '1 sec',
+        x7: '1 second',
+        x8: '1 m',
+        x9: '1 min',
+        x10: '1 minute',
+        x11: 1500,
+        x12: '1500',
+        e1: NaN,
+        e2: {},
+        e3: 'hello world'
+      });
+    });
+
+    it('should validate Null', function() {
+      stack = config.validate();
+      assert(!stack.x1, 'Validation failed');
+    });
+
+    it('should validate undefined', function() {
+      assert(!stack.x2, 'Validation failed');
+    });
+
+    it('should validate "1 ms"', function() {
+      assert(!stack.x3, 'Validation failed');
+    });
+
+    it('should validate "1 millisecond"', function() {
+      assert(!stack.x4, 'Validation failed');
+    });
+
+    it('should validate "1 s"', function() {
+      assert(!stack.x5, 'Validation failed');
+    });
+
+    it('should validate "1 sec"', function() {
+      assert(!stack.x6, 'Validation failed');
+    });
+
+    it('should validate "1 second"', function() {
+      assert(!stack.x7, 'Validation failed');
+    });
+
+    it('should validate "1 m"', function() {
+      assert(!stack.x8, 'Validation failed');
+    });
+
+    it('should validate "1 min"', function() {
+      assert(!stack.x9, 'Validation failed');
+    });
+
+    it('should validate "1 minute"', function() {
+      assert(!stack.x10, 'Validation failed');
+    });
+
+    it('should validate Number', function() {
+      assert(!stack.x11, 'Validation failed');
+    });
+
+    it('should validate Integer String', function() {
+      assert(!stack.x12, 'Validation failed');
+    });
+
+    it('should not validate NaN', function() {
+      assert(stack.e1, 'Validation failed');
+    });
+
+    it('should not validate Object', function() {
+      assert(stack.e2, 'Validation failed');
+    });
+
+    it('should not validate text', function() {
+      assert(stack.e3, 'Validation failed');
+    });
+
+    it('should parse Null', function() {
+      assert.strictEqual(config.get('x1'), null);
+    });
+
+    it('should parse undefined', function() {
+      assert.strictEqual(config.get('x2'), undefined);
+    });
+
+    it('should parse "1 ms"', function() {
+      assert.strictEqual(config.get('x3'), 1);
+    });
+
+    it('should parse "1 millisecond"', function() {
+      assert.strictEqual(config.get('x4'), 1);
+    });
+
+    it('should parse "1 s"', function() {
+      assert.strictEqual(config.get('x5'), 1000);
+    });
+
+    it('should parse "1 sec"', function() {
+      assert.strictEqual(config.get('x6'), 1000);
+    });
+
+    it('should parse "1 second"', function() {
+      assert.strictEqual(config.get('x7'), 1000);
+    });
+
+    it('should parse "1 m"', function() {
+      assert.strictEqual(config.get('x8'), 60000);
+    });
+
+    it('should parse "1 min"', function() {
+      assert.strictEqual(config.get('x9'), 60000);
+    });
+
+    it('should parse "1 minute"', function() {
+      assert.strictEqual(config.get('x10'), 60000);
+    });
+
+    it('should parse Number', function() {
+      assert.strictEqual(config.get('x11'), 1500);
+    });
+
+    it('should parse Integer String', function() {
+      assert.strictEqual(config.get('x12'), 1500);
+    });
+
+    it('should not parse NaN', function() {
+      assert.throws(() => config.get('e1'), /Validation error./g);
+    });
+
+    it('should not parse Object', function() {
+      assert.throws(() => config.get('e2'), /Validation error./g);
     });
 
     it('should not parse text', function() {

@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "errorex": "^2.0.3",
+    "moment": "^2.22.2",
     "putil-merge": "^2.0.2",
     "validator": "^10.9.0",
     "yargs-parser": "^11.1.0"
