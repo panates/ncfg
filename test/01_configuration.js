@@ -126,90 +126,36 @@ describe('Configuration', function() {
     assert.equal(config.has('sub.nonexist'), false);
   });
 
-  it('should load values from object', function() {
-    const o = config
-        .defineAll(schema1)
-        .set('sub.arg3', 234)
-        .load({ip: '127.0.0.2', sub: {arg3: undefined}})
-        .toJSON();
-    assert.deepEqual(o, {
-      env: 'development',
-      ip: '127.0.0.2',
-      port: 8080,
-      sub: {
-        arg3: 123
-      }
-    });
-  });
-
-  it('should load values from process arguments', function() {
-    const o = config
-        .defineAll(schema1)
-        .set('sub.arg1', 1234)
-        .argv()
-        .toJSON();
-    assert.deepEqual(o, {
-      env: 'development',
-      ip: '127.0.0.1',
-      port: 8080,
-      sub: {
-        arg1: 8081,
-        arg3: 123
-      }
-    });
-  });
-
-  it('should load values from environment variables', function() {
-    const o = config
-        .defineAll(schema1)
-        .env()
-        .toJSON();
-    assert.deepEqual(o, {
-      env: 'test',
-      ip: '127.0.0.1',
-      port: 8080,
-      sub: {
-        arg3: 123
-      }
-    });
-  });
-
-  it('should load from json file', function() {
-    const o = config
-        .defineAll(schema1)
-        .loadFiles(path.join(__dirname, 'support', 'val1.json'))
-        .toJSON();
-    assert.deepEqual(o, {
-      env: 'development',
-      ip: '127.0.0.2',
-      port: 8080,
-      sub: {
-        arg3: 234
-      }
-    });
-  });
-
-  it('should register file parser', function() {
-    const o = config
-        .defineAll(schema1)
-        .addParsers({ext: 'jsonx', parse: JSON.parse})
-        .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
-        .toJSON();
-    assert.deepEqual(o, {
-      env: 'development',
-      ip: '127.0.0.2',
-      port: 8080,
-      sub: {
-        arg3: 234
-      }
-    });
-  });
-
   it('should get() validate first argument is string', function() {
     config.defineAll(schema1);
     assert.throws(() => {
       config.get();
     }, /You must provide.*/);
+  });
+
+  it('should return env value if value not set', function() {
+    const o = config
+        .defineAll(schema1);
+    assert.equal(o.get('env'), 'test');
+    o.set('env', 'production');
+    assert.equal(o.get('env'), 'production');
+  });
+
+  it('should return arg value if value not set', function() {
+    const o = config
+        .defineAll(schema1);
+    assert.equal(o.get('sub.arg1'), 8081);
+    o.set('sub.arg1', 83);
+    assert.equal(o.get('sub.arg1'), 83);
+  });
+
+  it('should return loaded value if value not set', function() {
+    const o = config
+        .defineAll(schema1)
+        .load({sub: {arg3: 125}});
+    assert.equal(o.get('sub.arg3'), 125);
+    o.set('sub.arg3', 234);
+    assert.equal(o.get('sub.arg3'), 234);
   });
 
   it('should return default value if value not set', function() {
@@ -281,10 +227,11 @@ describe('Configuration', function() {
     config.set('sub.arg3', '234');
     let o = config.toJSON();
     assert.deepEqual(o, {
-      env: 'development',
+      env: 'test',
       ip: '127.0.0.2',
       port: 8080,
       sub: {
+        arg1: 8081,
         arg3: 234
       }
     });
@@ -342,6 +289,58 @@ describe('Configuration', function() {
     assert.throws(() => {
       config.set('country', 'TRY');
     }, /Validation error.*/);
+  });
+
+  it('should load values from object', function() {
+    const o = config
+        .defineAll(schema1)
+        .load({
+          ip: '127.0.0.2',
+          sub: {arg3: 234}
+        })
+        .toJSON();
+    assert.deepEqual(o, {
+      env: 'test', // read from env
+      ip: '127.0.0.2',
+      port: 8080,
+      sub: {
+        arg1: 8081, // read from args
+        arg3: 234
+      }
+    });
+  });
+
+  it('should load from json file', function() {
+    const o = config
+        .defineAll(schema1)
+        .loadFiles(path.join(__dirname, 'support', 'val1.json'))
+        .toJSON();
+    assert.deepEqual(o, {
+      env: 'test',
+      ip: '127.0.0.2',
+      port: 8080,
+      sub: {
+        arg1: 8081,
+        arg3: 234
+      }
+    });
+  });
+
+  it('should register file parser', function() {
+    const o = config
+        .defineAll(schema1)
+        .addParsers({ext: 'jsonx', parse: JSON.parse})
+        .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
+        .toJSON();
+    assert.deepEqual(o, {
+      env: 'test',
+      ip: '127.0.0.2',
+      port: 8080,
+      sub: {
+        arg1: 8081,
+        arg3: 234
+      }
+    });
   });
 
 });
