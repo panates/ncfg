@@ -11,6 +11,126 @@ describe('Formats', function() {
     config = new Configuration();
   });
 
+  describe('Boolean', function() {
+
+    beforeEach(function() {
+      config.defineAll({
+        x1: 'boolean',
+        x2: 'boolean',
+        x3: 'boolean',
+        x4: 'boolean',
+        x5: 'boolean',
+        x6: 'boolean',
+        x7: 'boolean',
+        x8: 'boolean',
+        x9: 'boolean',
+        x10: 'boolean',
+        x11: 'boolean',
+        x12: 'boolean',
+        x13: 'boolean',
+        x14: 'boolean',
+        x15: 'boolean',
+        x16: 'boolean',
+        e1: 'boolean',
+        e2: 'boolean'
+      });
+      config.load({
+        x1: null,
+        x2: undefined,
+        x3: true,
+        x4: 'true',
+        x5: 'True',
+        x6: '1',
+        x7: 1,
+        x8: 't',
+        x9: 'yes',
+        x10: false,
+        x11: 'false',
+        x12: 'False',
+        x13: '0',
+        x14: 0,
+        x15: 'f',
+        x16: 'no',
+        e1: NaN,
+        e2: {}
+      });
+    });
+
+    it('should validate Null', function() {
+      stack = config.validate();
+      assert(!stack.x1, 'Validation failed');
+    });
+
+    it('should validate undefined', function() {
+      assert(!stack.x2, 'Validation failed');
+    });
+
+    it('should validate "true"', function() {
+      assert(!stack.x3, 'Validation failed');
+      assert(!stack.x4, 'Validation failed');
+      assert(!stack.x5, 'Validation failed');
+      assert(!stack.x6, 'Validation failed');
+      assert(!stack.x7, 'Validation failed');
+      assert(!stack.x8, 'Validation failed');
+      assert(!stack.x9, 'Validation failed');
+    });
+
+    it('should validate "false"', function() {
+      assert(!stack.x10, 'Validation failed');
+      assert(!stack.x11, 'Validation failed');
+      assert(!stack.x12, 'Validation failed');
+      assert(!stack.x13, 'Validation failed');
+      assert(!stack.x14, 'Validation failed');
+      assert(!stack.x15, 'Validation failed');
+      assert(!stack.x16, 'Validation failed');
+    });
+
+    it('should not validate NaN', function() {
+      assert(stack.e1, 'Validation failed');
+    });
+
+    it('should not validate Object', function() {
+      assert(stack.e2, 'Validation failed');
+    });
+
+    it('should parse Null', function() {
+      assert.strictEqual(config.get('x1'), null);
+    });
+
+    it('should parse undefined', function() {
+      assert.strictEqual(config.get('x2'), undefined);
+    });
+
+    it('should parse "true"', function() {
+      assert.strictEqual(config.get('x3'), true);
+      assert.strictEqual(config.get('x4'), true);
+      assert.strictEqual(config.get('x5'), true);
+      assert.strictEqual(config.get('x6'), true);
+      assert.strictEqual(config.get('x7'), true);
+      assert.strictEqual(config.get('x8'), true);
+      assert.strictEqual(config.get('x9'), true);
+    });
+
+    it('should parse "false"', function() {
+      assert.strictEqual(config.get('x10'), false);
+      assert.strictEqual(config.get('x11'), false);
+      assert.strictEqual(config.get('x12'), false);
+      assert.strictEqual(config.get('x13'), false);
+      assert.strictEqual(config.get('x14'), false);
+      assert.strictEqual(config.get('x15'), false);
+      assert.strictEqual(config.get('x16'), false);
+    });
+
+    it('should not parse NaN', function() {
+      assert.throws(() => config.get('e1'), /Validation error./g);
+    });
+
+    it('should not parse Object', function() {
+      assert.throws(() => config.get('e2'), /Validation error./g);
+    });
+
+  });
+
   describe('String', function() {
 
     beforeEach(function() {
