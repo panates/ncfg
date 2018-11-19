@@ -42,7 +42,7 @@ describe('Configuration', function() {
           default: 123
         },
         arg4: {
-          format: ['aa', 'bb', 'cc']
+          format: ['aa', 'bb', 'cc'],
         }
       }
     }
@@ -152,10 +152,11 @@ describe('Configuration', function() {
   it('should return loaded value if value not set', function() {
     const o = config
         .defineAll(schema1)
-        .load({sub: {arg3: 125}});
+        .load({sub: {arg3: 125, arg4: 'aa'}});
     assert.equal(o.get('sub.arg3'), 125);
     o.set('sub.arg3', 234);
     assert.equal(o.get('sub.arg3'), 234);
+    assert.equal(o.get('sub.arg4'), 'aa');
   });
 
   it('should return default value if value not set', function() {
@@ -190,6 +191,13 @@ describe('Configuration', function() {
     config.set('sub.arg4', 'bb');
     assert.throws(() => {
       config.set('sub.arg4', 'abc');
+    }, /Validation error.*/g);
+  });
+
+  it('should set() throw if property is not valid', function() {
+    assert.throws(() => {
+      config.defineAll(schema1);
+      config.set('port', -1);
     }, /Validation error.*/g);
   });
 
