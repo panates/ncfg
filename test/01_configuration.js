@@ -22,7 +22,7 @@ describe('Configuration', function() {
     port: {
       doc: 'The port to bind.',
       format: 'port',
-      default: 8080,
+      default: '8080',
       env: 'PORT'
     },
     sub: {
@@ -38,8 +38,8 @@ describe('Configuration', function() {
           format: 'string'
         },
         arg3: {
-          format: 'int',
-          default: 123
+          format: 'duration',
+          default: '1 sec'
         },
         arg4: {
           format: ['aa', 'bb', 'cc'],
@@ -145,8 +145,10 @@ describe('Configuration', function() {
     const o = config
         .defineAll(schema1);
     assert.equal(o.get('sub.arg1'), 8081);
-    o.set('sub.arg1', 83);
+    assert.equal(o.get('sub.arg1', true), '8081');
+    o.set('sub.arg1', '83');
     assert.equal(o.get('sub.arg1'), 83);
+    assert.equal(o.get('sub.arg1', true), '83');
   });
 
   it('should return loaded value if value not set', function() {
@@ -161,7 +163,8 @@ describe('Configuration', function() {
 
   it('should return default value if value not set', function() {
     config.defineAll(schema1);
-    assert.equal(config.get('sub.arg3'), 123);
+    assert.equal(config.get('sub.arg3'), 1000);
+    assert.equal(config.get('sub.arg3', true), '1 sec');
   });
 
   it('should get() return assigned value by set()', function() {
@@ -226,7 +229,7 @@ describe('Configuration', function() {
     config.reset('ip');
     config.reset('sub.arg3');
     assert.equal(config.get('ip'), '127.0.0.1');
-    assert.equal(config.get('sub.arg3'), 123);
+    assert.equal(config.get('sub.arg3'), 1000);
   });
 
   it('should get all values as json object', function() {
