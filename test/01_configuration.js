@@ -340,7 +340,7 @@ describe('Configuration', function() {
   it('should register file parser', function() {
     const o = config
         .defineAll(schema1)
-        .addParsers({ext: 'jsonx', parse: JSON.parse})
+        .addParsers({ext: 'jsonx', parser: JSON.parse})
         .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
         .toJSON();
     assert.deepEqual(o, {
