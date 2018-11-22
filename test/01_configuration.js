@@ -354,4 +354,14 @@ describe('Configuration', function() {
     });
   });
 
+  it('should throw if parser returns a value different than an object instance', function() {
+    assert.throws(() => {
+      config
+          .defineAll(schema1)
+          .addParsers({jsonx: () => '123'})
+          .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
+          .toJSON();
+    });
+  });
+
 });
