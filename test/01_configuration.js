@@ -42,7 +42,7 @@ describe('Configuration', function() {
           default: '1 sec'
         },
         arg4: {
-          format: ['aa', 'bb', 'cc'],
+          format: ['aa', 'bb', 'cc']
         }
       }
     }
@@ -340,7 +340,7 @@ describe('Configuration', function() {
   it('should register file parser', function() {
     const o = config
         .defineAll(schema1)
-        .addParsers({ext: 'jsonx', parser: JSON.parse})
+        .addParsers({jsonx: JSON.parse})
         .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
         .toJSON();
     assert.deepEqual(o, {
