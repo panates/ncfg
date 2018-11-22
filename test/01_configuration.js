@@ -337,10 +337,10 @@ describe('Configuration', function() {
     });
   });
 
-  it('should register file parser', function() {
+  it('should register multi file parser', function() {
     const o = config
         .defineAll(schema1)
-        .addParsers({jsonx: JSON.parse})
+        .addParsers({jsonx: [() => null, JSON.parse]})
         .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
         .toJSON();
     assert.deepEqual(o, {
@@ -359,8 +359,7 @@ describe('Configuration', function() {
       config
           .defineAll(schema1)
           .addParsers({jsonx: () => '123'})
-          .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')])
-          .toJSON();
+          .loadFiles([path.join(__dirname, 'support', 'val1.jsonx')]);
     });
   });
 
