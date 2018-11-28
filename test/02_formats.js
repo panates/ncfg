@@ -1696,4 +1696,138 @@ describe('Formats', function() {
 
   });
 
+  describe('bytesize', function() {
+
+    beforeEach(function() {
+      config.defineAll({
+        x1: 'bytesize',
+        x2: 'bytesize',
+        x3: 'bytesize',
+        x4: 'bytesize',
+        x5: 'bytesize',
+        x6: 'bytesize',
+        x7: 'bytesize',
+        x8: 'bytesize',
+        x9: 'bytesize',
+        x10: 'bytesize',
+        x11: 'bytesize',
+        e1: 'bytesize',
+        e2: 'bytesize',
+        e3: 'bytesize'
+      });
+      config.load({
+        x1: null,
+        x2: undefined,
+        x3: '1',
+        x4: '1 b',
+        x5: '1 kb',
+        x6: '1 mb',
+        x7: '1 gb',
+        x8: '1 tb',
+        x9: 1024,
+        e1: NaN,
+        e2: {},
+        e3: 'hello world'
+      });
+    });
+
+    it('should validate Null', function() {
+      stack = config.validate();
+      assert(!stack.x1, 'Validation failed');
+    });
+
+    it('should validate undefined', function() {
+      assert(!stack.x2, 'Validation failed');
+    });
+
+    it('should validate "1"', function() {
+      assert(!stack.x3, 'Validation failed');
+    });
+
+    it('should validate "1 b"', function() {
+      assert(!stack.x4, 'Validation failed');
+    });
+
+    it('should validate "1 kb"', function() {
+      assert(!stack.x5, 'Validation failed');
+    });
+
+    it('should validate "1 mb"', function() {
+      assert(!stack.x6, 'Validation failed');
+    });
+
+    it('should validate "1 gb"', function() {
+      assert(!stack.x7, 'Validation failed');
+    });
+
+    it('should validate "1 tb"', function() {
+      assert(!stack.x8, 'Validation failed');
+    });
+
+    it('should validate Number', function() {
+      assert(!stack.x9, 'Validation failed');
+    });
+
+    it('should not validate NaN', function() {
+      assert(stack.e1, 'Validation failed');
+    });
+
+    it('should not validate Object', function() {
+      assert(stack.e2, 'Validation failed');
+    });
+
+    it('should not validate text', function() {
+      assert(stack.e3, 'Validation failed');
+    });
+
+    it('should parse Null', function() {
+      assert.strictEqual(config.get('x1'), null);
+    });
+
+    it('should parse undefined', function() {
+      assert.strictEqual(config.get('x2'), undefined);
+    });
+
+    it('should parse "1"', function() {
+      assert.strictEqual(config.get('x3'), 1);
+    });
+
+    it('should parse "1 b"', function() {
+      assert.strictEqual(config.get('x4'), 1);
+    });
+
+    it('should parse "1 kb"', function() {
+      assert.strictEqual(config.get('x5'), 1024);
+    });
+
+    it('should parse "1 mb"', function() {
+      assert.strictEqual(config.get('x6'), 1024 * 1024);
+    });
+
+    it('should parse "1 gb"', function() {
+      assert.strictEqual(config.get('x7'), 1024 * 1024 * 1024);
+    });
+
+    it('should parse "1 tb"', function() {
+      assert.strictEqual(config.get('x8'), 1024 * 1024 * 1024 * 1024);
+    });
+
+    it('should parse Number', function() {
+      assert.strictEqual(config.get('x9'), 1024);
+    });
+
+    it('should not parse NaN', function() {
+      assert.throws(() => config.get('e1'), /Validation error./g);
+    });
+
+    it('should not parse Object', function() {
+      assert.throws(() => config.get('e2'), /Validation error./g);
+    });
+
+    it('should not parse text', function() {
+      assert.throws(() => config.get('e3'), /Validation error./g);
+    });
+
+  });
+
 });
