@@ -1,8 +1,9 @@
 /* eslint-disable */
 require('./support/env');
 const assert = require('assert');
-const {Configuration, ValidationError} = require('..');
+const ncfg = require('..');
 const path = require('path');
+const {ValidationError} = ncfg;
 
 describe('Configuration', function() {
 
@@ -44,7 +45,7 @@ describe('Configuration', function() {
   let config;
 
   beforeEach(function() {
-    config = new Configuration();
+    config = ncfg();
   });
 
   it('should define property- define(key:string, def:object)', function() {
