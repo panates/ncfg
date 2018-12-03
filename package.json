@@ -1,7 +1,7 @@
 {
   "name": "ncfg",
   "description": "Configuration management library for Node.js",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "author": "Panates Ltd.",
   "contributors": [
     "Eray Hanoglu <e.hanoglu@panates.com>"
