@@ -632,7 +632,7 @@ describe('Formats', function() {
       config.load({
         x1: null,
         x2: undefined,
-        x3: 'localhost',
+        x3: 'localhost:8080',
         x4: '127.0.0.1',
         e1: NaN,
         e2: {},
@@ -678,7 +678,7 @@ describe('Formats', function() {
     });
 
     it('should parse domain name', function() {
-      assert.strictEqual(config.get('x3'), 'localhost');
+      assert.strictEqual(config.get('x3'), 'localhost:8080');
     });
 
     it('should parse ip address', function() {
