@@ -9,26 +9,26 @@ describe('Configuration', function() {
 
   const schema1 = {
     ip: {
-      doc: 'The IP address to bind.',
+      description: 'The IP address to bind.',
       format: 'url',
       default: '127.0.0.1',
       env: 'IP_ADDRESS'
     },
     port: {
-      doc: 'The port to bind.',
+      description: 'The port to bind.',
       format: 'port',
       default: '8080',
       env: 'PORT'
     },
     sub: {
-      doc: 'Sub properties',
+      description: 'Sub properties',
       properties: {
         arg1: {
-          doc: 'Sub arg-1',
+          description: 'Sub arg-1',
           format: 'int'
         },
         arg2: {
-          doc: 'Sub arg-2',
+          description: 'Sub arg-2',
           format: 'string'
         },
         arg3: {

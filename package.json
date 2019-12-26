@@ -26,16 +26,15 @@
   "dependencies": {
     "errorex": "^2.3.2",
     "moment": "^2.24.0",
-    "putil-merge": "^3.3.0",
-    "validator": "^11.0.0",
-    "yargs-parser": "^13.1.1"
+    "putil-merge": "^3.5.0",
+    "validator": "^12.1.0",
+    "yargs-parser": "^16.1.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-config-google": "^0.13.0",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1"
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^6.2.2",
+    "nyc": "^15.0.0"
   },
   "engines": {
     "node": ">=6.0"
