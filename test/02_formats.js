@@ -58,7 +58,7 @@ describe('Formats', function() {
 
     it('should validate Null', function() {
       stack = config.validate();
-      assert(!stack.x1, 'Validation failed');
+      assert.ok(!stack.x1, 'Validation failed');
     });
 
     it('should validate undefined', function() {
